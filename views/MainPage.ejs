@@ -1,5 +1,26 @@
 <%- include("Header") -%>
-  
+<form action="/" method="post">
+    <div class="blogs">
+        <% for(var i=0 ; i<blogHeader.length ; i++){%>
+            <div class="blogContainer">
+                <%let name = "blog" + i;%>
+                <input type="checkbox"  name ="blog"   >
+
+                <h1><%= blogHeader[i] %></h1>
+                <p><%= blogText[i]%></p>
+            </div>
+        
+            <%}%>
+    </div>
+    <div id="composeBtnContainer">
+        <button id="composeBtn" type="submit" class="btn btn-dark btn-lg">Delete</button>
+    
+    </div>
+</form>
+
+
+
+ 
   
   
 

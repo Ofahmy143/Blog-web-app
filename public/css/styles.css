@@ -8,6 +8,12 @@
 
 
 } */
+p{
+    text-align: center;
+}
+h1{
+    text-align: center;
+}
 .co{
     display: grid;
     grid-template-columns: 68% 65% 40%;
@@ -25,7 +31,7 @@
 
 
 }
-p{
+#siteHeader{
     font-size: 3vw;
     padding-top: 1%;
     margin-right: 45vw;
@@ -68,3 +74,54 @@ ul{
 .redirectors:hover{
     color: black;
 }
+#inputContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10vw;
+
+}
+input[type=text]{
+    width: 40vw;
+}
+#blogHeader{
+    height: 3vw;
+border-radius: 15%;
+margin-bottom: 2vw;
+}
+
+#blogText{
+    width: 40vw;
+    height: 20vw;
+    
+
+}
+
+#composeBtnContainer{
+    justify-content: center;
+    text-align: center;
+    margin-top: 2vw;
+
+}
+.blogContainer{
+    margin-bottom: 5vw;
+    width: 40vw;
+    margin-left: 30vw;
+
+}
+.blogContainer:hover{
+    background-color: lightgrey;
+}
+.blogs{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: solid 5px red;
+}
+.closeBtnContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+}
+
