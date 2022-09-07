@@ -1,21 +1,18 @@
 <%- include("Header") -%>
+<link rel="stylesheet" href="/css/styles.css">
 <form action="/" method="post">
     <div class="blogs">
-        <% for(var i=0 ; i<blogHeader.length ; i++){%>
+        <% for(var i=0 ; i<posts.length ; i++){%>
             <div class="blogContainer">
-                <%let name = "blog" + i;%>
-                <input type="checkbox"  name ="blog"   >
-
-                <h1><%= blogHeader[i] %></h1>
-                <p><%= blogText[i]%></p>
+                <p class="postHeaders"><%= posts[i].header %></p>
+                <hr width="100%">
+                <p class="postContent"><%= posts[i].text%></p>
+                <hr width="100%">
             </div>
         
             <%}%>
     </div>
-    <div id="composeBtnContainer">
-        <button id="composeBtn" type="submit" class="btn btn-dark btn-lg">Delete</button>
-    
-    </div>
+
 </form>
 
 
