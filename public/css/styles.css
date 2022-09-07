@@ -8,6 +8,36 @@
 
 
 } */
+@font-face {
+    font-family: roboto-slabLight;
+    src: url("public/font/roboto-slab.light.ttf");
+}
+@font-face {
+    font-family: lato;
+    src: url("public/font/Lato-Bold.ttf");
+}
+
+html{
+    display: grid;
+    grid-template-rows: 0vh 1fr 0vh;
+    grid-template-areas:
+    "header"
+    "body"
+    "footer";
+}
+header{
+    grid-area: header;
+}
+body{
+    grid-area: body;
+}
+
+
+
+
+
+
+
 p{
     text-align: center;
 }
@@ -22,20 +52,24 @@ h1{
     "up up up"
     "downLeft down downRight";
 
-    max-width: 100vw;
+    max-width: 99vw;
     /* border: black solid 5px; */
-    height: 6vw;
+    height: 12vh;
     background-color: aquamarine;
+    margin-bottom: 2vw;
 
     
 
 
 }
 #siteHeader{
+    font-family: helvetica;
     font-size: 3vw;
     padding-top: 1%;
     margin-right: 45vw;
     width: 30vw;
+    text-decoration: none;
+    color: black;
 }
 
 .links{
@@ -68,60 +102,104 @@ ul{
 }
 .redirectors{
     font-size: 2vw;
-    color: red;
+    color: blue;
+    text-decoration: none;
 
 }
 .redirectors:hover{
     color: black;
 }
-#inputContainer{
+
+#composeBtnContainer{
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-top: 10vw;
+    justify-content: right;
+    margin-right: 30vw;
+    margin-top: 2vw;
 
 }
+
+#composePageHeader{
+display: flex;
+justify-content: left;
+margin-left: 10vw;
+margin-bottom: 4vh;
+margin-top:8vh;
+font-size: 3vw;
+}
+
+
 input[type=text]{
-    width: 40vw;
+    margin-left: 10vw;
+    width: 60vw;
+}
+input[type=text]:focus{
+    outline-color: red;
 }
 #blogHeader{
     height: 3vw;
-border-radius: 15%;
 margin-bottom: 2vw;
+border-radius: 4px;
 }
 
 #blogText{
-    width: 40vw;
-    height: 20vw;
+    margin-left: 10vw;
+    width: 60vw;
+    height: 15vw;
+    border-radius: 4px;
     
 
 }
 
-#composeBtnContainer{
-    justify-content: center;
-    text-align: center;
-    margin-top: 2vw;
 
-}
 .blogContainer{
     margin-bottom: 5vw;
-    width: 40vw;
-    margin-left: 30vw;
+    width: 60vw;
+    margin-left: 20vw;
+    
+
 
 }
 .blogContainer:hover{
     background-color: lightgrey;
+
 }
 .blogs{
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    border: solid 5px red;
+    justify-content: left;
 }
 .closeBtnContainer{
     display: flex;
     flex-direction: row;
     justify-content: right;
+}
+.invisible{
+    visibility: hidden ;
+}
+.postHeaders{
+    font-family:  lato;
+    font-weight: bolder;
+    font-size: 2.2vw;
+/* border: solid 5px red; */
+display: flex;
+justify-content: left;
+}
+.postContent{
+    font-family: roboto-slabLight;
+    font-size: 1.6vw;
+    /* border: solid 5px red; */
+    display: flex;
+justify-content: left;
+text-align: left;
+
+}
+footer{
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+        /* border: solid 5px black; */
+    display: flex;
+    justify-content: center;
+    background-color: silver;
 }
 

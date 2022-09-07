@@ -30,28 +30,31 @@ app.post("/compose",function(req,res){
         header : req.body.blogHeader,
         text : req.body.blogText
     }
+    if(post.header === "" || post.text == ""){
+        console.log("empty post")
+        
+
+    }else if(posts.includes(post)){
+        console.log("Duplicate try again");
+    }else{
+        posts.push(post);
+        res.redirect("/");
+
+    }
 
 
-    let headerLink = post.header.replace(/ /g,"-");
-
-
-
-    posts.push(post);
-    res.redirect("/");
 })
 
 
 app.get("/about",function(req,res){
-    res.send("Yellooooo")
+    res.render("about")
 })
 app.get("/contact",function(req,res){
     res.send("Yellooooo")
 })
 app.get(["/compose" ,"/posts/compose" , "/about/compose" ,"/contact/compose"],function(req,res){
 
-    console.log("*************************************************");
-    console.log(req.query)
-    console.log(req.route);
+
     res.render("compose")
 })
 // app.post("/",function(req,res){
