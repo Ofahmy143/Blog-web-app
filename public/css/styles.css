@@ -17,20 +17,6 @@
     src: url("public/font/Lato-Bold.ttf");
 }
 
-html{
-    display: grid;
-    grid-template-rows: 0vh 1fr 0vh;
-    grid-template-areas:
-    "header"
-    "body"
-    "footer";
-}
-header{
-    grid-area: header;
-}
-body{
-    grid-area: body;
-}
 
 
 
@@ -38,24 +24,17 @@ body{
 
 
 
-p{
-    text-align: center;
-}
-h1{
-    text-align: center;
-}
+
+
+
 .co{
-    display: grid;
-    grid-template-columns: 68% 65% 40%;
-    grid-template-rows: 25% 75%;
-    grid-template-areas: 
-    "up up up"
-    "downLeft down downRight";
+    display: flex;
+    flex-direction: row;
 
-    max-width: 99vw;
+    max-width: 100%;
     /* border: black solid 5px; */
-    height: 12vh;
-    background-color: aquamarine;
+    height: 5.5vw;
+    background-color: #DBCC8F;
     margin-bottom: 2vw;
 
     
@@ -63,13 +42,14 @@ h1{
 
 }
 #siteHeader{
+    margin-left: 1vw;
     font-family: helvetica;
     font-size: 3vw;
     padding-top: 1%;
     margin-right: 45vw;
     width: 30vw;
     text-decoration: none;
-    color: black;
+    color: #212121;
 }
 
 .links{
@@ -90,24 +70,25 @@ font-size: 20px;
     overflow: hidden;
 }
 ul{
-    grid-area: down;
+    padding-top: 2%;
+    
     display: flex;
     flex-direction: row;
 
     list-style-type: none;
-    width: 31vw;
+    width: 40vw;
 }
 .redirectors.type2{
     margin-left:1.5em;
 }
 .redirectors{
     font-size: 2vw;
-    color: blue;
+    color: #212121;
     text-decoration: none;
 
 }
 .redirectors:hover{
-    color: black;
+    color: #41444B;
 }
 
 #composeBtnContainer{
@@ -117,6 +98,7 @@ ul{
     margin-top: 2vw;
 
 }
+
 
 #composePageHeader{
 display: flex;
@@ -128,20 +110,17 @@ font-size: 3vw;
 }
 
 
-input[type=text]{
-    margin-left: 10vw;
-    width: 60vw;
-}
+
 input[type=text]:focus{
     outline-color: red;
 }
-#blogHeader{
+.blogHeader{
     height: 3vw;
 margin-bottom: 2vw;
 border-radius: 4px;
 }
 
-#blogText{
+.blogText{
     margin-left: 10vw;
     width: 60vw;
     height: 15vw;
@@ -154,7 +133,7 @@ border-radius: 4px;
 .blogContainer{
     margin-bottom: 5vw;
     width: 60vw;
-    margin-left: 20vw;
+    margin-left: 2vw;
     
 
 
@@ -173,14 +152,12 @@ border-radius: 4px;
     flex-direction: row;
     justify-content: right;
 }
-.invisible{
-    visibility: hidden ;
-}
+
 .postHeaders{
-    font-family:  lato;
+    font-family:  helvetica;
+    color: #434343;
     font-weight: bolder;
-    font-size: 2.2vw;
-/* border: solid 5px red; */
+    font-size: 2.3vw;
 display: flex;
 justify-content: left;
 }
@@ -200,6 +177,20 @@ footer{
         /* border: solid 5px black; */
     display: flex;
     justify-content: center;
-    background-color: silver;
+    background-color: #52575D;
+    color: #DFCDC3;
+}
+input[type=email]{
+width: 60vw;
+height: 2vw;
+border-radius: 4px;
+}
+.messageContent{
+
+    text-align: left;
+    width: 60vw;
+    height: 13vw;
+    margin-top: 1.5vw;
+    border-radius: 4px;
 }
 

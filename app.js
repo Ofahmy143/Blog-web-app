@@ -1,8 +1,10 @@
+
 const express = require('express');
 const app = express();
 const https = require('https');
 const { post } = require('request');
 const request = require('request');
+const nodemailer =require("nodemailer");
 
 app.use(express.urlencoded({extended:true}));
 app.use(express.static(__dirname + "/public"));
@@ -50,7 +52,7 @@ app.get("/about",function(req,res){
     res.render("about")
 })
 app.get("/contact",function(req,res){
-    res.send("Yellooooo")
+    res.render("contact")
 })
 app.get(["/compose" ,"/posts/compose" , "/about/compose" ,"/contact/compose"],function(req,res){
 
@@ -84,3 +86,45 @@ app.get("/posts/:postHeader" , function(req,res){
     })
 
     })
+
+
+    app.post("/contact",function(req,res){
+        let email = req.body.email;
+        let msg = req.body.messageContent;
+
+        let transporter = nodemailer.createTransport({
+    
+            service: "gmail.com",
+    
+            auth: {
+              user: "courseregisteration01iters@gmail.com",
+              pass: "rfsngcynykfcffsy"
+            },
+            tls:{
+                rejectUnauthorized:false
+            }
+          
+        });
+        
+        var mailOptions = ({
+        from: '"Anonymous reviewer" <courseregisteration01iters@gmail.com>',
+        to: "ofahmy1234@gmail.com ",
+        subject:"Blog FeedBack",
+        html:"<div>" +
+                " <h3>Email: "+ email+"</h3>"+
+                "<h3>Msg=> <br> "+ msg+"</h3> </div>"
+        });
+        
+        transporter.sendMail(mailOptions,function(error,info){
+        if(error){
+            console.log(error);
+
+            res.redirect("/contact");
+        }else{
+            console.log("Email sent" +info.response);
+
+           res.redirect("/contact");
+        }
+        });
+    })
+

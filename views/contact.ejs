@@ -1,0 +1,19 @@
+<%- include("Header") -%>
+<link rel="stylesheet" href="/css/styles.css">
+
+<form action="/contact" method="post">
+    <div class="blogContainer">
+        <p class="postHeaders">Message me</p>
+        <hr width="100%">
+    
+        <Input class="email" type="email" name="email" placeholder="JohnDoe@gmail.com">
+        <textarea class="messageContent" name="messageContent" placeholder="Share your opinion with me & and leave your email for me to reply"></textarea>
+    
+        
+            <button  type="submit" class="btn btn-warning btn-lg">Submit</button>
+    
+    </div>
+    
+</form>
+
+<%- include("Footer") -%>
