@@ -54,7 +54,7 @@ app.get("/about",function(req,res){
 app.get("/contact",function(req,res){
     res.render("contact")
 })
-app.get(["/compose" ,"/posts/compose" , "/about/compose" ,"/contact/compose"],function(req,res){
+app.get("/compose" ,function(req,res){
 
 
     res.render("compose")
@@ -128,3 +128,31 @@ app.get("/posts/:postHeader" , function(req,res){
         });
     })
 
+app.post("/",function(req,res){
+    if(req.body.redirector === "home"){
+        console.log(req.body.redirector);
+
+        res.redirect("/");
+
+
+    }else if(req.body.redirector === "about"){
+        console.log(req.body.redirector);
+
+        res.redirect("/about");
+
+
+    }else if(req.body.redirector === "contact"){
+        console.log(req.body.redirector);
+
+        res.redirect("/contact");
+
+    }else if(req.body.redirector === "compose"){
+        
+        console.log(req.body.redirector);
+        res.redirect("/compose");
+
+
+    }else{
+        console.log("redirector error")
+    }
+})
