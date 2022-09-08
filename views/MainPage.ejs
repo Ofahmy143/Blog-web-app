@@ -6,7 +6,9 @@
             <div class="blogContainer">
                 <p class="postHeaders"><%= posts[i].header %></p>
                 <hr width="100%">
-                <p class="postContent"><%= posts[i].text%></p>
+
+                <p class="postContent homePageText"><%= posts[i].text%></p><a class="readMore" href="/posts/<%= posts[i].header.toLowerCase().replace( /[^a-zA-Z0-9 ]/g,"" ).
+                replace(/ /g , "-") %>">Read more</a>
                 <hr width="100%">
             </div>
         
