@@ -44,7 +44,13 @@ app.listen(3000,function(){
 
 
 app.get("/",function(req,res){
-    res.render("MainPage" , {posts:posts});
+    blog.find(function(err,foundBlogs){
+        if(err){
+            coonsole.log(err);
+        }else{
+            res.render("MainPage" , {posts:foundBlogs[0].posts});
+        }
+    })
 })
 
 
@@ -80,7 +86,7 @@ const nBlog = new blog({
     name: "home",
     posts: defArr
 })
-nBlog.save();
+// nBlog.save();
 
 /* -----------------------------------------------------------------------------POST methods---------------------------------------------------------------------------------------*/
 
