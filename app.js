@@ -5,6 +5,7 @@ const https = require('https');
 const { post } = require('request');
 const request = require('request');
 const nodemailer =require("nodemailer");
+const mongoose = require("mongoose");
 
 app.use(express.urlencoded({extended:true}));
 app.use(express.static(__dirname + "/public"));
@@ -13,17 +14,77 @@ app.use(express.json());
 
 let posts = [];
 
+// initiate the connection with the Database at mongoDB atlas
+mongoose.connect("mongodb+srv://Fahmokky:7YFrcW5HWdobhBJd@clusterfah.3bcdud9.mongodb.net/blogDB")
+
+//create a schema for each post
+const postSchema = new mongoose.Schema({
+    header: String,
+    text: String
+})
+
+// create a schema for each blog
+const blogSchema = new mongoose.Schema({
+    title: String,
+    posts: [postSchema]
+})
+
+//create a collection for blogs
+const blog = mongoose.model("blog",blogSchema);
 
 
+
+//listening to port 3000 for local debugging and process.env for hosting on heroku
 app.listen(3000,function(){
     console.log("Server working on port 3000");
 })
 
 
+/* -------------------------------------------------------------------------------GET methods---------------------------------------------------------------------------------------*/
+
 
 app.get("/",function(req,res){
     res.render("MainPage" , {posts:posts});
 })
+
+
+
+app.get("/about",function(req,res){
+    res.render("about")
+})
+app.get("/contact",function(req,res){
+    res.render("contact")
+})
+app.get("/compose" ,function(req,res){
+
+
+    res.render("compose")
+})
+/* -----------------------------------------------------------------------------test Post---------------------------------------------------------------------------------------*/
+let testPost1 = {
+    header: "Lorem Ipsum",
+    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,"
+    +" quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum"
+    +"dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+}
+let testPost2 = {
+    header: "Lorem Ipsum 2",
+    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,"
+    +" quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum"
+    +"dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+}
+
+let defArr = [testPost1,testPost2];
+
+const nBlog = new blog({
+    name: "home",
+    posts: defArr
+})
+nBlog.save();
+
+/* -----------------------------------------------------------------------------POST methods---------------------------------------------------------------------------------------*/
+
+
 
 
 
@@ -39,7 +100,7 @@ app.post("/compose",function(req,res){
     }else if(posts.includes(post)){
         console.log("Duplicate try again");
     }else{
-        posts.push(post);
+        post.save();
         res.redirect("/");
 
     }
@@ -47,18 +108,20 @@ app.post("/compose",function(req,res){
 
 })
 
+app.get("/posts/:postHeader" , function(req,res){
+    let requestedTitle = req.params.postHeader.replace( /-/g," " );
+    // console.log(requestedTitle);
+    posts.forEach(function(post){
+        let refactoredPostHeader = post.header.toLowerCase().replace( /[^a-zA-Z0-9-" " ]/g,"" );
+        if(refactoredPostHeader===requestedTitle){
+            res.render("Blog",{post:post});
+        }
+    })
 
-app.get("/about",function(req,res){
-    res.render("about")
-})
-app.get("/contact",function(req,res){
-    res.render("contact")
-})
-app.get("/compose" ,function(req,res){
+    })
 
 
-    res.render("compose")
-})
+
 // app.post("/",function(req,res){
 //     console.log(req.body);
 //     for(let i=0 ; i<blogHeader.length ; i++){
@@ -75,17 +138,7 @@ app.get("/compose" ,function(req,res){
 //     res.redirect("/");
 // })
 
-app.get("/posts/:postHeader" , function(req,res){
-    let requestedTitle = req.params.postHeader.replace( /-/g," " );
-    // console.log(requestedTitle);
-    posts.forEach(function(post){
-        let refactoredPostHeader = post.header.toLowerCase().replace( /[^a-zA-Z0-9-" " ]/g,"" );
-        if(refactoredPostHeader===requestedTitle){
-            res.render("Blog",{post:post});
-        }
-    })
 
-    })
 
 
     app.post("/contact",function(req,res){
@@ -127,6 +180,9 @@ app.get("/posts/:postHeader" , function(req,res){
         }
         });
     })
+
+
+    
 
 app.post("/",function(req,res){
     if(req.body.redirector === "home"){
