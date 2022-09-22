@@ -12,12 +12,11 @@ app.use(express.static(__dirname + "/public"));
 app.set('view engine','ejs');
 app.use(express.json());
 
-// let posts = [];
+/* -----------------------------------------------------------------------------DataBase initiation---------------------------------------------------------------------------------------*/
 
 // initiate the connection with the Database at mongoDB atlas
 mongoose.connect("mongodb+srv://Fahmokky:7YFrcW5HWdobhBJd@clusterfah.3bcdud9.mongodb.net/blogDB")
 
-/* -----------------------------------------------------------------------------Blogs Collection---------------------------------------------------------------------------------------*/
 
 
 //create a schema for each post
@@ -26,6 +25,7 @@ const postSchema = new mongoose.Schema({
     text: String
 })
 
+//create a schema for the feedback
 const feedBackSchema = new mongoose.Schema({
     email: String,
     msg: String
@@ -176,9 +176,9 @@ app.get("/posts/:postHeader" , function(req,res){
 
     app.post("/contact",function(req,res){
         let feedBack = {
-            email: req.body.email,
+            email: String(req.body.email),
             msg: req.body.messageContent
-        }
+        };
 
 
         let transporter = nodemailer.createTransport({
@@ -200,8 +200,8 @@ app.get("/posts/:postHeader" , function(req,res){
         to: "ofahmy1234@gmail.com ",
         subject:"Blog FeedBack",
         html:"<div>" +
-                " <h3>Email: "+ email+"</h3>"+
-                "<h3>Msg=> <br> "+ msg+"</h3> </div>"
+                " <h3>Email: "+ feedBack.email+"</h3>"+
+                "<h3>Msg=> <br> "+ feedBack.msg+"</h3> </div>"
         });
         
         transporter.sendMail(mailOptions,function(error,info){
@@ -211,6 +211,14 @@ app.get("/posts/:postHeader" , function(req,res){
             res.redirect("/contact");
         }else{
             console.log("Email sent" +info.response);
+            blog.findOneAndUpdate({title:'home'},{$push:{"feedBack":feedBack}},{safe:true , upsert:true},function(err,model){
+                if(err){
+                    console.log(err)
+                }else{
+                    console.log(model)
+
+                }
+            })
 
            res.redirect("/contact");
         }
