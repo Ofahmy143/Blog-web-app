@@ -12,10 +12,13 @@ app.use(express.static(__dirname + "/public"));
 app.set('view engine','ejs');
 app.use(express.json());
 
-let posts = [];
+// let posts = [];
 
 // initiate the connection with the Database at mongoDB atlas
 mongoose.connect("mongodb+srv://Fahmokky:7YFrcW5HWdobhBJd@clusterfah.3bcdud9.mongodb.net/blogDB")
+
+/* -----------------------------------------------------------------------------Blogs Collection---------------------------------------------------------------------------------------*/
+
 
 //create a schema for each post
 const postSchema = new mongoose.Schema({
@@ -23,16 +26,22 @@ const postSchema = new mongoose.Schema({
     text: String
 })
 
+const feedBackSchema = new mongoose.Schema({
+    email: String,
+    msg: String
+
+})
+
 // create a schema for each blog
 const blogSchema = new mongoose.Schema({
     title: String,
-    posts: [postSchema]
+    posts: [postSchema],
+    feedBack: [feedBackSchema]
 })
 
 //create a collection for blogs
 const blog = mongoose.model("blog",blogSchema);
-
-
+/* -----------------------------------------------------------------------------Port listener---------------------------------------------------------------------------------------*/
 
 //listening to port 3000 for local debugging and process.env for hosting on heroku
 app.listen(3000,function(){
@@ -83,7 +92,7 @@ let testPost2 = {
 let defArr = [testPost1,testPost2];
 
 const nBlog = new blog({
-    name: "home",
+    title: "home",
     posts: defArr
 })
 // nBlog.save();
@@ -96,20 +105,24 @@ const nBlog = new blog({
 
 app.post("/compose",function(req,res){
     let post = {
-        header : req.body.blogHeader,
+        header : req.body.blogHeader.toLowerCase().replace( /[^a-zA-Z0-9-" " ]/g,"" ),
         text : req.body.blogText
     }
-    if(post.header === "" || post.text == ""){
-        console.log("empty post")
+    // if(post.header === "" || post.text == ""){
+    //     console.log("empty post")
         
 
-    }else if(posts.includes(post)){
-        console.log("Duplicate try again");
-    }else{
-        post.save();
+    // }else if(posts.includes(post)){
+    //     console.log("Duplicate try again");
+    // }else{
+        blog.findOneAndUpdate({title:'home'},{$push:{"posts":post}},{safe:true , upsert:true},function(err,model){
+            if(err){
+                console.log(err);
+            }
+        })
         res.redirect("/");
 
-    }
+    // }
 
 
 })
@@ -117,12 +130,26 @@ app.post("/compose",function(req,res){
 app.get("/posts/:postHeader" , function(req,res){
     let requestedTitle = req.params.postHeader.replace( /-/g," " );
     // console.log(requestedTitle);
-    posts.forEach(function(post){
-        let refactoredPostHeader = post.header.toLowerCase().replace( /[^a-zA-Z0-9-" " ]/g,"" );
-        if(refactoredPostHeader===requestedTitle){
+    // posts.forEach(function(post){
+    //     let refactoredPostHeader = post.header.toLowerCase().replace( /[^a-zA-Z0-9-" " ]/g,"" );
+    //     if(refactoredPostHeader===requestedTitle){
+    //         res.render("Blog",{post:post});
+    //     }
+    // })
+
+
+
+    blog.find({title:'home'},function(err,foundBlog){
+        if(err){
+            console.log(err)
+        }else{
+            console.log(requestedTitle);
+
+            const post = foundBlog[0].posts.find(el => el.header == requestedTitle);
             res.render("Blog",{post:post});
-        }
+    }
     })
+
 
     })
 
@@ -148,8 +175,11 @@ app.get("/posts/:postHeader" , function(req,res){
 
 
     app.post("/contact",function(req,res){
-        let email = req.body.email;
-        let msg = req.body.messageContent;
+        let feedBack = {
+            email: req.body.email,
+            msg: req.body.messageContent
+        }
+
 
         let transporter = nodemailer.createTransport({
     
